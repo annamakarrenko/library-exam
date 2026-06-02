@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">🔍 Рецензия на книгу "{{ review.book.title }}"</h1>
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-4"><strong>Пользователь:</strong></div>
+            <div class="col-md-8">{{ review.user.full_name }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4"><strong>Оценка:</strong></div>
+            <div class="col-md-8"><span class="badge bg-warning text-dark">⭐ {{ review.rating }}</span></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4"><strong>Дата:</strong></div>
+            <div class="col-md-8">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4"><strong>Текст рецензии:</strong></div>
+            <div class="col-md-8">
+                <div class="border p-3 rounded bg-light">
+                    {{ review.text | safe }}
+                </div>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <form method="POST" action="{{ url_for('moderation.approve_review', review_id=review.id) }}">
+                <button type="submit" class="btn btn-success">Одобрить</button>
+            </form>
+            <form method="POST" action="{{ url_for('moderation.reject_review', review_id=review.id) }}">
+                <button type="submit" class="btn btn-danger">Отклонить</button>
+            </form>
+            <a href="{{ url_for('moderation.reviews') }}" class="btn btn-secondary">← Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

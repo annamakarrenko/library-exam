@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% from 'pagination.html' import render_pagination %}
+
+{% block content %}
+<h1 class="mb-4">📚 Список книг</h1>
+
+<div class="row">
+    {% for book in books %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <div class="btn-group">
+                            <a href="{{ url_for('books.show', book_id=book.id) }}" class="btn btn-sm btn-outline-info">👁️ Просмотр</a>
+                            {% if current_user.is_authenticated %}
+                                {% if current_user.role.name in ['admin', 'moderator'] %}
+                                    <a href="{{ url_for('books.edit', book_id=book.id) }}" class="btn btn-sm btn-outline-warning">✏️</a>
+                                {% endif %}
+                                {% if current_user.role.name == 'admin' %}
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ book.id }}">🗑️</button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="text-muted small">
+                        <strong>Автор:</strong> {{ book.author }} | <strong>Год:</strong> {{ book.year }}
+                    </p>
+                    <p class="text-muted small">
+                        <strong>Жанры:</strong> {{ book.genres | map(attribute='name') | join(', ') }}
+                    </p>
+                    <p class="card-text">{{ book.short_description | striptags | truncate(150) }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning text-dark">⭐ {{ "%.1f" | format(book.average_rating) }}</span>
+                        <span class="text-muted small">📝 {{ book.reviews_count }} отзывов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if current_user.role.name == 'admin' %}
+        <div class="modal fade" id="deleteModal{{ book.id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Удаление книги</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Вы уверены, что хотите удалить книгу <strong>"{{ book.title }}"</strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                        <form method="POST" action="{{ url_for('books.delete', book_id=book.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Да, удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+    {{ render_pagination(pagination, 'main.index') }}
+</div>
+
+{% if current_user.is_authenticated and current_user.role.name == 'admin' %}
+    <div class="text-center mt-4">
+        <a href="{{ url_for('books.create') }}" class="btn btn-success btn-lg">➕ Добавить книгу</a>
+    </div>
+{% endif %}
+{% endblock %}

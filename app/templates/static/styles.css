@@ -1,0 +1,40 @@
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+footer {
+    margin-top: auto;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.easymde-container .EasyMDEContainer .CodeMirror {
+    min-height: 300px;
+}
+
+.book-cover {
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+}
+
+.pagination {
+    margin-bottom: 0;
+}

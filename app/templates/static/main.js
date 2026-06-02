@@ -1,0 +1,12 @@
+'use strict';
+
+// Автоматическое скрытие alert-сообщений через 5 секунд
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            let bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+});

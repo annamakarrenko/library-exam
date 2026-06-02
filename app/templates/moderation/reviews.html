@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% from 'pagination.html' import render_pagination %}
+
+{% block content %}
+<h1 class="mb-4">🔍 Модерация рецензий</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>№</th>
+                <th>Книга</th>
+                <th>Пользователь</th>
+                <th>Дата добавления</th>
+                <th>Оценка</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td>{{ loop.index + (pagination.page - 1) * pagination.per_page }}</td>
+                <td><a href="{{ url_for('books.show', book_id=review.book.id) }}">{{ review.book.title }}</a></td>
+                <td>{{ review.user.full_name }}</td>
+                <td>{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td><span class="badge bg-warning text-dark">⭐ {{ review.rating }}</span></td>
+                <td>
+                    <a href="{{ url_for('moderation.review_detail', review_id=review.id) }}" class="btn btn-sm btn-primary">Рассмотреть</a>
+                </td>
+            </tr>
+            {% else %}
+                <tr><td colspan="6" class="text-center">Нет рецензий на модерации</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+    {{ render_pagination(pagination, 'moderation.reviews') }}
+</div>
+{% endblock %}
