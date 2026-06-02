@@ -2,7 +2,7 @@
 {% from 'pagination.html' import render_pagination %}
 
 {% block content %}
-<h1 class="mb-4">📚 Список книг</h1>
+<h1 class="mb-4">Список книг</h1>
 
 <div class="row">
     {% for book in books %}
@@ -12,7 +12,7 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <h5 class="card-title">{{ book.title }}</h5>
                         <div class="btn-group">
-                            <a href="{{ url_for('books.show', book_id=book.id) }}" class="btn btn-sm btn-outline-info">👁️ Просмотр</a>
+                            <a href="{{ url_for('books.show', book_id=book.id) }}" class="btn btn-sm btn-outline-info">Просмотр</a>
                             {% if current_user.is_authenticated %}
                                 {% if current_user.role.name in ['admin', 'moderator'] %}
                                     <a href="{{ url_for('books.edit', book_id=book.id) }}" class="btn btn-sm btn-outline-warning">✏️</a>
@@ -38,7 +38,7 @@
             </div>
         </div>
         
-        {% if current_user.role.name == 'admin' %}
+        {% if current_user.is_authenticated and current_user.role.name == 'admin' %}
         <div class="modal fade" id="deleteModal{{ book.id }}" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -68,7 +68,7 @@
 
 {% if current_user.is_authenticated and current_user.role.name == 'admin' %}
     <div class="text-center mt-4">
-        <a href="{{ url_for('books.create') }}" class="btn btn-success btn-lg">➕ Добавить книгу</a>
+        <a href="{{ url_for('books.create') }}" class="btn btn-success btn-lg">Добавить книгу</a>
     </div>
 {% endif %}
 {% endblock %}
