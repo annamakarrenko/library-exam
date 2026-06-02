@@ -54,9 +54,9 @@ def init_db():
         if admin_role and not User.query.filter_by(login='admin').first():
             admin = User(
                 login='admin',
-                last_name='Администраторов',
+                last_name='Админов',
                 first_name='Админ',
-                middle_name='Админович',
+                middle_name='Админ',
                 role_id=admin_role.id
             )
             admin.set_password('Admin123!')
@@ -69,8 +69,8 @@ def init_db():
             moderator = User(
                 login='moderator',
                 last_name='Модераторов',
-                first_name='Модер',
-                middle_name='Модераторович',
+                first_name='Модератор',
+                middle_name='Модератор',
                 role_id=moderator_role.id
             )
             moderator.set_password('Moder123!')
@@ -82,9 +82,9 @@ def init_db():
         if user_role and not User.query.filter_by(login='user').first():
             user = User(
                 login='user',
-                last_name='Пользователей',
+                last_name='Юзеров',
                 first_name='Юзер',
-                middle_name='Юзерович',
+                middle_name='Юзер',
                 role_id=user_role.id
             )
             user.set_password('User123!')
