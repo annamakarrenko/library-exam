@@ -19,7 +19,8 @@ books_data = [
         'publisher': 'Художественная литература',
         'pages': 480,
         'short_description': 'Роман о визите сатаны в советскую Москву. Сатирическое, философское и мистическое произведение.',
-        'genres': ['Роман', 'Фэнтези']
+        'genres': ['Роман', 'Фэнтези'],
+        'cover_file': 'cover_1.jpg'
     },
     {
         'title': 'Преступление и наказание',
@@ -28,7 +29,8 @@ books_data = [
         'publisher': 'Русский вестник',
         'pages': 672,
         'short_description': 'Роман о студенте Раскольникове, который совершает убийство и затем переживает муки совести.',
-        'genres': ['Роман', 'Детектив']
+        'genres': ['Роман', 'Детектив'],
+        'cover_file': 'cover_2.jpg'
     },
     {
         'title': 'Война и мир',
@@ -37,7 +39,8 @@ books_data = [
         'publisher': 'Русский вестник',
         'pages': 1225,
         'short_description': 'Эпопея о жизни русского общества в эпоху наполеоновских войн.',
-        'genres': ['Роман', 'Историческая проза']
+        'genres': ['Роман', 'Историческая проза'],
+        'cover_file': 'cover_3.jpg'
     },
     {
         'title': '1984',
@@ -46,7 +49,8 @@ books_data = [
         'publisher': 'Secker & Warburg',
         'pages': 328,
         'short_description': 'Роман-антиутопия о тоталитарном режиме и слежке за гражданами.',
-        'genres': ['Фантастика', 'Роман']
+        'genres': ['Фантастика', 'Роман'],
+        'cover_file': 'cover_4.jpg'
     },
     {
         'title': 'Евгений Онегин',
@@ -55,7 +59,8 @@ books_data = [
         'publisher': 'Современник',
         'pages': 240,
         'short_description': 'Роман в стихах о судьбе дворянского интеллигента.',
-        'genres': ['Поэзия', 'Роман']
+        'genres': ['Поэзия', 'Роман'],
+        'cover_file': 'cover_5.jpg'
     },
     {
         'title': 'Анна Каренина',
@@ -64,7 +69,8 @@ books_data = [
         'publisher': 'Русский вестник',
         'pages': 864,
         'short_description': 'Трагическая история любви замужней женщины и офицера.',
-        'genres': ['Роман']
+        'genres': ['Роман'],
+        'cover_file': 'cover_6.jpg'
     },
     {
         'title': 'Двенадцать стульев',
@@ -73,7 +79,8 @@ books_data = [
         'publisher': 'Земля и фабрика',
         'pages': 432,
         'short_description': 'Сатирический роман о поисках бриллиантов, спрятанных в одном из двенадцати стульев.',
-        'genres': ['Роман', 'Приключения']
+        'genres': ['Роман', 'Приключения'],
+        'cover_file': 'cover_7.jpg'
     },
     {
         'title': 'Властелин колец',
@@ -82,7 +89,8 @@ books_data = [
         'publisher': 'Allen & Unwin',
         'pages': 1137,
         'short_description': 'Эпическое фэнтези о борьбе добра и зла в мире Средиземья.',
-        'genres': ['Фэнтези', 'Приключения']
+        'genres': ['Фэнтези', 'Приключения'],
+        'cover_file': 'cover_8.jpg'
     },
     {
         'title': 'Гарри Поттер и философский камень',
@@ -91,7 +99,8 @@ books_data = [
         'publisher': 'Bloomsbury',
         'pages': 332,
         'short_description': 'Первый роман о мальчике-волшебнике, поступающем в школу чародейства.',
-        'genres': ['Фэнтези', 'Приключения']
+        'genres': ['Фэнтези', 'Приключения'],
+        'cover_file': 'cover_9.jpg'
     },
     {
         'title': 'Мёртвые души',
@@ -100,7 +109,8 @@ books_data = [
         'publisher': 'Современник',
         'pages': 352,
         'short_description': 'Поэма о похождениях Чичикова, скупающего мёртвые души.',
-        'genres': ['Роман', 'Сатира']
+        'genres': ['Роман', 'Сатира'],
+        'cover_file': 'cover_10.jpg'
     }
 ]
 
@@ -115,6 +125,17 @@ reviews_data = [
     {'rating': 2, 'text': 'Не моё. Слишком скучно и затянуто.'},
     {'rating': 4, 'text': 'Интересный сюжет, но концовка предсказуема.'}
 ]
+
+def ensure_genres():
+    """Проверяет и добавляет недостающие жанры"""
+    required_genres = ['Роман', 'Фэнтези', 'Детектив', 'Историческая проза', 
+                       'Фантастика', 'Поэзия', 'Приключения', 'Сатира']
+    for genre_name in required_genres:
+        if not Genre.query.filter_by(name=genre_name).first():
+            genre = Genre(name=genre_name)
+            db.session.add(genre)
+            print(f"Добавлен жанр: {genre_name}")
+    db.session.commit()
 
 def add_books_and_reviews():
     app = create_app()
@@ -138,6 +159,9 @@ def add_books_and_reviews():
         uploads_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
         os.makedirs(uploads_dir, exist_ok=True)
         
+        # Добавляем недостающие жанры
+        ensure_genres()
+        
         books_added = 0
         reviews_added = 0
         
@@ -155,7 +179,7 @@ def add_books_and_reviews():
                 if genre:
                     genres.append(genre)
                 else:
-                    print(f"  Предупреждение: жанр '{genre_name}' не найден")
+                    print(f" Предупреждение: жанр '{genre_name}' не найден")
             
             # Создаём книгу
             book = Book(
@@ -173,29 +197,42 @@ def add_books_and_reviews():
             for genre in genres:
                 book.genres.append(genre)
             
-            # Создаём заглушку для обложки (без реального файла)
-            # Генерируем MD5 на основе названия книги
-            md5_hash = hashlib.md5(book_data['title'].encode()).hexdigest()
+            # Проверяем, существует ли файл обложки
+            cover_filename = book_data['cover_file']
+            cover_path = os.path.join(uploads_dir, cover_filename)
             
-            cover = Cover(
-                filename=f"cover_{book.id}.jpg",
-                mime_type='image/jpeg',
-                md5_hash=md5_hash,
-                book_id=book.id
-            )
+            if os.path.exists(cover_path):
+                # Используем реальный файл
+                with open(cover_path, 'rb') as f:
+                    md5_hash = hashlib.md5(f.read()).hexdigest()
+                cover = Cover(
+                    filename=cover_filename,
+                    mime_type='image/jpeg',
+                    md5_hash=md5_hash,
+                    book_id=book.id
+                )
+                print(f" Обложка: {cover_filename} (реальный файл)")
+            else:
+                # Создаём заглушку
+                md5_hash = hashlib.md5(book_data['title'].encode()).hexdigest()
+                cover = Cover(
+                    filename=f"cover_{book.id}.jpg",
+                    mime_type='image/jpeg',
+                    md5_hash=md5_hash,
+                    book_id=book.id
+                )
+                print(f" Обложка: cover_{book.id}.jpg (заглушка, файл {cover_filename} не найден)")
+            
             db.session.add(cover)
-            
             db.session.commit()
             books_added += 1
-            print(f"Добавлена книга: {book_data['title']}")
+            print(f"✅ Добавлена книга: {book_data['title']}")
             
             # Добавляем рецензии для первых 5 книг
             if i < 5:
-                # Для каждой книги добавляем 2-3 рецензии
                 num_reviews = 2 if i % 2 == 0 else 3
                 for j in range(num_reviews):
                     review_data = reviews_data[(i + j) % len(reviews_data)]
-                    # Чередуем авторов рецензий
                     reviewer = [admin, moderator, user][j % 3]
                     
                     review = Review(
@@ -227,7 +264,7 @@ def add_books_and_reviews():
                 print(f"  └─ Добавлена рецензия от {reviewer.login} (оценка: {review_data['rating']})")
         
         db.session.commit()
-        print(f"\nГотово! Добавлено {books_added} книг и {reviews_added} рецензий.")
+        print(f"\n🎉 Готово! Добавлено {books_added} книг и {reviews_added} рецензий.")
 
 
 if __name__ == '__main__':
