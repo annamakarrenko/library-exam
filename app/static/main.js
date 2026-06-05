@@ -1,6 +1,5 @@
 'use strict';
 
-// Автоматическое скрытие alert-сообщений через 5 секунд
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         let alerts = document.querySelectorAll('.alert');
