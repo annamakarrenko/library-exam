@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
 Скрипт для инициализации базы данных начальными данными.
-Запуск: python init_db.py
 """
 
 from app import create_app, db
@@ -13,7 +12,6 @@ def init_db():
         # Создаём таблицы
         db.create_all()
         
-        # Добавляем роли
         roles = [
             {'name': 'admin', 'description': 'Администратор (полный доступ)'},
             {'name': 'moderator', 'description': 'Модератор (может редактировать книги и модерировать рецензии)'},
@@ -26,7 +24,6 @@ def init_db():
                 db.session.add(role)
                 print(f"Добавлена роль: {role_data['name']}")
         
-        # Добавляем статусы рецензий
         statuses = [
             {'name': 'pending', 'description': 'На рассмотрении'},
             {'name': 'approved', 'description': 'Одобрена'},
@@ -39,7 +36,6 @@ def init_db():
                 db.session.add(status)
                 print(f"Добавлен статус: {status_data['name']}")
         
-        # Добавляем тестовые жанры
         genres = ['Фантастика', 'Детектив', 'Роман', 'Поэзия', 'Научная литература', 
                   'Историческая проза', 'Приключения', 'Фэнтези', 'Триллер']
         
@@ -49,7 +45,6 @@ def init_db():
                 db.session.add(genre)
                 print(f"Добавлен жанр: {genre_name}")
         
-        # Создаём тестового администратора
         admin_role = Role.query.filter_by(name='admin').first()
         if admin_role and not User.query.filter_by(login='admin').first():
             admin = User(
@@ -63,7 +58,6 @@ def init_db():
             db.session.add(admin)
             print("Добавлен пользователь: admin (пароль: Admin123!)")
         
-        # Создаём тестового модератора
         moderator_role = Role.query.filter_by(name='moderator').first()
         if moderator_role and not User.query.filter_by(login='moderator').first():
             moderator = User(
@@ -77,7 +71,6 @@ def init_db():
             db.session.add(moderator)
             print("Добавлен пользователь: moderator (пароль: Moder123!)")
         
-        # Создаём тестового обычного пользователя
         user_role = Role.query.filter_by(name='user').first()
         if user_role and not User.query.filter_by(login='user').first():
             user = User(

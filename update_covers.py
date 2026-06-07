@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Обновление обложек книг на реальные изображения"""
 
 from app import create_app, db
 from app.models import Cover

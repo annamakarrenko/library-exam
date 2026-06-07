@@ -8,7 +8,6 @@ bp = Blueprint('moderation', __name__, url_prefix='/moderation')
 @bp.route('/reviews')
 @login_required
 def reviews():
-    """Список рецензий на модерации"""
     if current_user.role.name != 'moderator' and current_user.role.name != 'admin':
         flash('У вас недостаточно прав для выполнения данного действия.', 'danger')
         return redirect(url_for('main.index'))

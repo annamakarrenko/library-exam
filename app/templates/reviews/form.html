@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="mb-4">📝 Написать рецензию на книгу "{{ book.title }}"</h1>
+<h1 class="mb-4">Написать рецензию на книгу "{{ book.title }}"</h1>
 
 <div class="card shadow">
     <div class="card-body">
@@ -9,12 +9,12 @@
             <div class="mb-3">
                 <label for="rating" class="form-label">Оценка</label>
                 <select class="form-select" id="rating" name="rating" required>
-                    <option value="5">5 — отлично</option>
-                    <option value="4">4 — хорошо</option>
-                    <option value="3">3 — удовлетворительно</option>
-                    <option value="2">2 — неудовлетворительно</option>
-                    <option value="1">1 — плохо</option>
-                    <option value="0">0 — ужасно</option>
+                    <option value="5">5 - отлично</option>
+                    <option value="4">4 - хорошо</option>
+                    <option value="3">3 - удовлетворительно</option>
+                    <option value="2">2 - неудовлетворительно</option>
+                    <option value="1">1 - плохо</option>
+                    <option value="0">0 - ужасно</option>
                 </select>
             </div>
             <div class="mb-3">

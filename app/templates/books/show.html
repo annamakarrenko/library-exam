@@ -59,7 +59,6 @@
     </div>
 </div>
 
-<!-- Секция рецензий -->
 <div class="row mt-5">
     <div class="col-12">
         <h3>Рецензии</h3>
@@ -84,7 +83,6 @@
             <p class="text-muted">Пока нет рецензий. Будьте первым!</p>
         {% endif %}
         
-        <!-- Кнопка написания рецензии -->
         {% if current_user.is_authenticated %}
             {% set user_review = book.reviews | selectattr('user_id', 'equalto', current_user.id) | first %}
             {% if not user_review %}
@@ -113,7 +111,6 @@
     </div>
 </div>
 
-<!-- Модальное окно удаления -->
 {% if current_user.is_authenticated and current_user.role.name == 'admin' %}
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
