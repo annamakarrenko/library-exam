@@ -1,5 +1,5 @@
 body {
-    background-color: #d9c989; 
+    background-color: #ddce93; 
 }
 
 .card {
@@ -47,4 +47,19 @@ main {
     background-color: #817449;
     border-color: #000000;
     color: white;
+}
+
+.bg-beige {
+    background-color: #a38b6b;
+}
+
+.btn-beige {
+    background-color: #a38b6b;
+    color: #ffffff;
+}
+
+.btn-beige:hover {
+    background-color: #9c8261;
+    color: #ffffff;
+    border-color: #000000;
 }
