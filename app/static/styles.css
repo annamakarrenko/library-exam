@@ -1,3 +1,7 @@
+body {
+    background-color: #d9c989; 
+}
+
 .card {
     transition: transform 0.2s;
 }
@@ -37,4 +41,14 @@ main {
 
 .pagination {
     margin-bottom: 0;
+}
+.alert-info {
+    background-color: #57c172;
+    border-color: #000000;
+    color: white;
+}
+.alert-success {
+    background-color: #817449;
+    border-color: #000000;
+    color: white;
 }

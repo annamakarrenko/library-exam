@@ -29,10 +29,19 @@
                     <p class="text-muted small">
                         <strong>Жанры:</strong> {{ book.genres | map(attribute='name') | join(', ') }}
                     </p>
-                    <p class="card-text">{{ book.short_description | striptags | truncate(150) }}</p>
+                    <p class="card-text">{{ book.short_description | striptags | truncate(200) }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-warning text-dark">⭐ {{ "%.1f" | format(book.average_rating) }}</span>
-                        <span class="text-muted small">{{ book.reviews_count }} отзывов</span>
+                        <span class="text-muted small">
+                            {{ book.reviews_count }} 
+                            {% if book.reviews_count % 10 == 1 and book.reviews_count % 100 != 11 %}
+                                отзыв
+                            {% elif book.reviews_count % 10 in [2,3,4] and book.reviews_count % 100 not in [12,13,14] %}
+                                отзыва
+                            {% else %}
+                                отзывов
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
             </div>
